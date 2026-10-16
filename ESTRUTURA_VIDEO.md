@@ -447,8 +447,8 @@ python3 criar_holograma_francisco.py seu_video.mp4 seu_video_holograma.mp4
 ---
 
 **Atualizado em**: 15 de outubro de 2026  
-**Última atualização**: 15 de outubro de 2026  
-**Status**: Estrutura + Scripts de efeitos prontos
+**Última atualização**: 16 de outubro de 2026 (primeira cobertura entregue: London Tech Week 2026, via `montar_video_londres.py`)  
+**Status**: Estrutura + Scripts de efeitos + Pipeline de montagem funcionando
 
 ## ⚠️ Nota Técnica: Segmentação de Imagem
 

@@ -246,6 +246,24 @@ Você é um facilitador da curiosidade e da conexão comunitária.
 - **Dependências:** opencv-python, numpy, ffmpeg
 - **Guia completo:** Ver `GUIA_HOLOGRAMA.md`
 
+#### 4. **montar_video_londres.py** — Montagem de vídeo de cobertura (fotos + clipes)
+- **Função:** Gera vídeo 16:9 (1920x1080, 30fps) a partir de um manifesto JSON
+- **Status:** ✓ Testado em 16/10/2026 — vídeo "London Tech Week 2026" entregue (91s, H.264 + trilha)
+- **O que faz:**
+  - Fotos com efeito Ken Burns (zoom suave alternado) e crossfades
+  - Clipes de vídeo com corte por `inicio`/`dur` (segundos) — ideal para mostrar interação
+  - Cartelas de abertura e divisórias de seção (Turismo / Cultura / Tech Week)
+  - Legendas UTF-8 (acentos ok) com fonte DejaVu via PIL
+- **Uso:** `python3 montar_video_londres.py manifesto.json saida.mp4`
+- **Manifesto:** `manifesto_londres.json` (exemplo real — London Tech Week 2026)
+- **Fonte de mídia:** OneDrive via rclone (`rclone copy onedrive:2026/viagem Londres ...`)
+- **Pós-render (ffmpeg):**
+  1. Gerar trilha: `ffmpeg -f lavfi -i "sine=..." ... trilha.wav` (pad ambiente)
+  2. Muxar: `ffmpeg -i video.mp4 -i trilha.wav -c:v copy -c:a aac -shortest final.mp4`
+  3. Re-encode H.264: `ffmpeg -i final.mp4 -c:v libx264 -crf 21 -pix_fmt yuv420p -c:a copy saida.mp4`
+- **Dependências:** opencv-python, numpy, Pillow, ffmpeg
+- **Limitações:** render lento (~3,5 min para 19 cenas); intermediário MPEG-4 grande (~175 MB)
+
 ### Visão Geral do Pipeline TechLocal
 
 ```
@@ -285,9 +303,9 @@ Você é um facilitador da curiosidade e da conexão comunitária.
 ---
 
 **Criado em**: 15 de outubro de 2026  
-**Última atualização**: 15 de outubro de 2026  
+**Última atualização**: 16 de outubro de 2026 (vídeo London Tech Week 2026 renderizado, muxado e entregue)  
 **Próxima revisão**: Mensal (ajustar conforme aprendizados)  
-**Status**: Estrutura + Scripts prontos para produção
+**Status**: Estrutura + Scripts + Primeiro vídeo de cobertura entregue
 
 ## ⚠️ Notas de Implementação
 

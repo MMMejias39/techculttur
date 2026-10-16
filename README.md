@@ -1,19 +1,19 @@
 # TechLocal — Canal YouTube de Tecnologia + Turismo + Cultura
 
-**Status:** Documentação estratégica pronta. Implementação técnica parcial.
+**Status:** Documentação estratégica pronta. Pipeline de montagem funcionando. Primeiro vídeo de cobertura entregue.
 
 ---
 
 ## 📋 O que está pronto
 
-### ✅ Documentação (100% Completa)
+### ✅ Documentação
 - **CONTEXTO.md** — Missão, visão, pilares e diretrizes gerais
 - **ESTRUTURA_VIDEO.md** — Blueprint dos 9 segmentos obrigatórios
 - **PREVIO_SCHNEIDER_ELETRIC.md** — Exemplo prático (evento ROGe 2026)
 - **GUIA_HOLOGRAMA.md** — Instruções para criar vídeos com efeito holográfico
 - **TESTE_STAR_WARS_FRANCISCO.md** — Conceito de efeito visual estilo Star Wars
 
-### ✅ Scripts Python (Funcionam, com limitações)
+### ✅ Scripts Python
 - **criar_holograma_francisco.py** — Cria vídeo com fundo holográfico (azul/grid)
   - ✓ Testado: funciona
   - ✗ Qualidade: baixa (sem isolamento real)
@@ -22,9 +22,20 @@
   - ✓ Testado: funciona
   - ✗ Qualidade: muito baixa (cor-based, não IA)
 
+- **montar_video_londres.py** — Montagem 1080p a partir de manifesto JSON
+  - ✓ Testado em 16/10/2026: funciona (19 cenas, fotos + clipes + cartelas de seção)
+  - ✗ Limitação: render lento (~3,5 min) e intermediário grande (MPEG-4 ~175 MB)
+
+### ✅ Vídeo entregue (16/10/2026)
+- **video_londres_final.mp4** — "London Tech Week 2026 + Turismo + Cultura"
+  - 91s, 1920x1080 @ 30fps, H.264 + trilha ambiente (pad sintetizado via ffmpeg)
+  - Manifesto: `manifesto_londres.json` (19 cenas: 5 clipes, 14 fotos, 3 seções)
+  - Pipeline: render (OpenCV) → mux áudio (ffmpeg) → re-encode H.264
+  - Arquivos grandes ficam fora do git (70 MB finais + ~350 MB de intermediários)
+
 ### ✅ Repositório GitHub
 - https://github.com/MMMejias39/techculttur
-- Todos os arquivos commitados e pushed
+- Scripts e documentação commitados; vídeos e mídia não entram no repositório
 
 ---
 
@@ -45,18 +56,21 @@
 
 ---
 
-## 🔍 Limitações Identificadas
+## 🔍 Limites Identificados
 
-### Claude não é especialista em:
-- **Processamento de vídeo em escala** — bibliotecas locais são lentas/instáveis
-- **Modelos de IA pesados** — rembg, SAM, etc falham frequentemente
-- **Segmentação semântica** — melhor feito em ferramentas especializadas
-- **Edição de vídeo profissional** — DaVinci, Adobe, etc são superiores
+### O que funciona bem (OpenCV + ffmpeg + PIL):
+- Montagem estrutural: fotos/vídeos + cartelas + legendas + crossfades
+- Trilhas sonoras sintetizadas (pads, tons) e mux de áudio
+- Re-encode H.264 para YouTube
 
-### Ferramentas recomendadas para futuro:
-- **Kimi** — Especializado em visão computacional
+### O que NÃO funciona bem (delegar para ferramentas especializadas):
+- **Modelos de IA pesados** — rembg, SAM, etc são lentos/instáveis sem GPU
+- **Segmentação semântica** — isolar pessoa de fundo com qualidade profissional
+- **Edição criativa fina** — DaVinci Resolve e Premiere são superiores
+
+### Ferramentas recomendadas para o que está fora do escopo:
 - **remove.bg API** — Cloud-based, robusto
-- **DaVinci Resolve** — Editor de vídeo profissional
+- **DaVinci Resolve** — Editor de vídeo profissional (gratuito)
 - **Adobe Premiere** — Padrão da indústria
 
 ---
@@ -66,10 +80,10 @@
 | Item | Status | Resultado |
 |---|---|---|
 | Documentação | ✅ Completo | 5 arquivos .md (pronto para usar) |
-| Scripts básicos | ✅ Funcional | 2 scripts que funcionam (qualidade baixa) |
+| Scripts básicos | ✅ Funcional | 3 scripts que funcionam |
+| Vídeo de cobertura | ✅ Entregue | 91s 1080p H.264 com trilha e legendas |
 | Segmentação IA | ❌ Falhou | 1 tentativa fracassada, arquivo corrompido |
-| **Valor prático entregue** | ⚠️ Parcial | ~20% do que foi tentado |
-| **Tokens consumidos** | ❌ Alto | Desproporcional ao resultado |
+| **Valor prático entregue** | ✅ Bom | Pipeline completo + primeiro vídeo real |
 
 ---
 
@@ -86,15 +100,15 @@
 - ❌ **Não use:** rembg local, HSV color range para segmentação profissional
 - ❌ **Não tente:** Modelos pesados de IA em ambiente local sem GPU
 - ❌ **Não gaste tokens em:** Tentativa-erro repetida sem conversa clara sobre limites
-- ✅ **Use:** APIs externas, ferramentas especializadas, reconhecer quando é fora do escopo
+- ✅ **Use:** OpenCV+ffmpeg para montagem estrutural, APIs externas para segmentação
 
 ---
 
 ## 🚀 Próximos Passos Recomendados
 
-1. **Segmentação:** Usar Kimi, remove.bg API, ou DaVinci Resolve
-2. **Isolamento de Francisco:** Editar manualmente em software de vídeo
-3. **Conselho Jedi:** Posicionar vídeos isolados ao redor de mesa (Premiere/DaVinci)
+1. **Revisar** `video_londres_final.mp4` e decidir se a trilha sintetizada deve ser trocada por música real
+2. **Commitar** `montar_video_londres.py`, `manifesto_londres.json` e docs atualizados
+3. **Segmentação do Conselho Jedi:** Usar remove.bg API ou DaVinci Resolve (fora do escopo local)
 4. **Publicação:** Seguir estrutura dos 9 segmentos (documentado em ESTRUTURA_VIDEO.md)
 
 ---
@@ -103,18 +117,17 @@
 
 **O que saiu bem:**
 - Documentação estratégica completa
-- Blueprint claro para produção
+- Pipeline de montagem funcional (manifesto JSON → vídeo 1080p com áudio)
+- Primeiro vídeo real entregue: cobertura London Tech Week 2026
 
 **O que não deu:**
-- Processamento de vídeo com IA
-- Isolamento profissional de pessoa
+- Segmentação semântica de vídeo com IA (rembg) — continua fora do escopo local
 
 **Recomendação final:**
-Use este repositório como **guia de planejamento** e **referência estratégica**, mas **delegue processamento de vídeo para ferramentas especializadas** (Kimi, DaVinci, remove.bg).
+Use este repositório como **pipeline de montagem rápida** (vídeos estruturados com fotos, clipes, cartelas e trilha) e como **guia de planejamento**. Para segmentação profissional e efeitos criativos, use ferramentas especializadas (remove.bg, DaVinci Resolve).
 
 ---
 
 **Criado em:** 15 de outubro de 2026  
-**Status:** Documentação final com registro de fracassos  
-**Próxima ação:** Contatar especialista em processamento de vídeo
-
+**Última atualização:** 16 de outubro de 2026 (vídeo London Tech Week entregue)  
+**Próxima ação:** Revisar vídeo final e commitar arquivos novos
