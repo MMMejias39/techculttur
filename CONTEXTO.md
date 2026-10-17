@@ -248,21 +248,49 @@ Você é um facilitador da curiosidade e da conexão comunitária.
 
 #### 4. **montar_video_londres.py** — Montagem de vídeo de cobertura (fotos + clipes)
 - **Função:** Gera vídeo 16:9 (1920x1080, 30fps) a partir de um manifesto JSON
-- **Status:** ✓ Testado em 16/10/2026 — vídeo "London Tech Week 2026" entregue (91s, H.264 + trilha)
+- **Status:** ✓ Testado em 16/10/2026 — entregue com narração (103s, H.264 + voz + áudio original)
 - **O que faz:**
   - Fotos com efeito Ken Burns (zoom suave alternado) e crossfades
   - Clipes de vídeo com corte por `inicio`/`dur` (segundos) — ideal para mostrar interação
-  - Cartelas de abertura e divisórias de seção (Turismo / Cultura / Tech Week)
-  - Legendas UTF-8 (acentos ok) com fonte DejaVu via PIL
+  - Cartela de abertura (a divisória de seção existe no código mas o vídeo entregue
+    **não usa capítulos**: tecnologia, cultura e turismo contam uma história só)
+  - Legendas UTF-8 (acentos ok) com fonte DejaVu via PIL, barra azul do canal
+  - Timeline centralizada em `blocos()`: fotos aceitam `dur` variável (não corta a
+    narração); crossfade só entre cenas consecutivas — cartelas quebram a cadeia,
+    evitando o 'pulo' que reexibia a cena anterior após cada divisória
 - **Uso:** `python3 montar_video_londres.py manifesto.json saida.mp4`
-- **Manifesto:** `manifesto_londres.json` (exemplo real — London Tech Week 2026)
+- **Manifesto:** `manifesto_londres.json` (exemplo real — London Tech Week 2026, com narrações)
 - **Fonte de mídia:** OneDrive via rclone (`rclone copy onedrive:2026/viagem Londres ...`)
-- **Pós-render (ffmpeg):**
-  1. Gerar trilha: `ffmpeg -f lavfi -i "sine=..." ... trilha.wav` (pad ambiente)
-  2. Muxar: `ffmpeg -i video.mp4 -i trilha.wav -c:v copy -c:a aac -shortest final.mp4`
-  3. Re-encode H.264: `ffmpeg -i final.mp4 -c:v libx264 -crf 21 -pix_fmt yuv420p -c:a copy saida.mp4`
-- **Dependências:** opencv-python, numpy, Pillow, ffmpeg
+- **Pipeline completo (vídeo com narração):**
+  1. Escrever "narracao" no manifesto (título + cada cena) — `narrar_londres.py`
+     gera os WAVs (Piper TTS local, voz feminina pt-BR) e injeta `narr_arquivo`,
+     `dur` das fotos e `titulo_dur`
+  2. Render: `python3 montar_video_londres.py manifesto.json video.mp4`
+  3. Áudio: `python3 gerar_audio_londres.py manifesto.json trilha.wav`
+     (narração no início de cada bloco; áudio original dos clipes a -12 dB)
+  4. Muxar + re-encode H.264: `ffmpeg -i video.mp4 -i trilha.wav -map 0:v -map 1:a
+     -c:v libx264 -crf 21 -pix_fmt yuv420p -c:a aac -b:a 192k saida.mp4`
+  5. ⚠️ Sempre usar `-map 0:v -map 1:a` — se o vídeo de entrada já tiver áudio
+     embutido, o ffmpeg escolhe o stream errado sem `-map`
+- **Dependências:** opencv-python, numpy, Pillow, ffmpeg, piper-tts (narração)
 - **Limitações:** render lento (~3,5 min para 19 cenas); intermediário MPEG-4 grande (~175 MB)
+
+#### 5. **narrar_londres.py** — Narrações TTS a partir do manifesto
+- **Função:** Gera um WAV por "narracao" (título + cenas) e ajusta o manifesto
+- **Voz:** Piper TTS local (`pt_BR-faber-medium`, feminina, natural — roda offline)
+- **⚠️ Lição:** edge-tts falhou com 403 persistente (Microsoft bloqueando o
+  cliente); Piper é a alternativa local. Não usar `--stdin` do piper (fragmenta
+  o texto); passar o texto via pipe stdin simples
+- **Uso:** `python3 narrar_londres.py manifesto.json`
+
+#### 6. **gerar_audio_londres.py** — Faixa de áudio final (narração + original + música)
+- **Função:** Monta a faixa sincronizada com a timeline de `blocos()`
+- Camadas: narração (volume 1.0) > áudio original dos clipes (0.25, -12 dB)
+  > música de fundo opcional (0.10, -20 dB; campo `musica` no manifesto,
+  cortada no tamanho do vídeo com fades de 3s/8s)
+- **Música usada:** "Wholesome" — Kevin MacLeod (incompetech.com), CC-BY 4.0
+  (exigir atribuição na descrição do YouTube)
+- **Uso:** `python3 gerar_audio_londres.py manifesto.json trilha.wav`
 
 ### Visão Geral do Pipeline TechLocal
 
@@ -303,9 +331,9 @@ Você é um facilitador da curiosidade e da conexão comunitária.
 ---
 
 **Criado em**: 15 de outubro de 2026  
-**Última atualização**: 16 de outubro de 2026 (vídeo London Tech Week 2026 renderizado, muxado e entregue)  
+**Última atualização**: 16 de outubro de 2026 (vídeo com narração TTS feminina + transições corrigidas entregue)  
 **Próxima revisão**: Mensal (ajustar conforme aprendizados)  
-**Status**: Estrutura + Scripts + Primeiro vídeo de cobertura entregue
+**Status**: Pipeline completo com narração — vídeo London Tech Week 2026 entregue
 
 ## ⚠️ Notas de Implementação
 

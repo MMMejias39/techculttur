@@ -13,8 +13,11 @@ Formato do manifesto (JSON):
 {
   "titulo": "LONDON TECH WEEK 2026",
   "subtitulo": "Tecnologia, turismo e cultura com o TechLocal",
+  "titulo_dur": 5.5,               # opcional (padrão 4.0) — ajustar à narração
   "cenas": [
-    {"arquivo": "/caminho/foto.jpg", "legenda": "Tower Bridge", "secao": "Turismo"},
+    {"arquivo": "/caminho/foto.jpg", "legenda": "Tower Bridge", "secao": "Turismo",
+     "dur": 5.0,                   # opcional em fotos (padrão 3.2) — ajustar à narração
+     "narr_arquivo": "narracao_wavs/01.wav"},  # opcional, usado pelo gerar_audio
     {"arquivo": "/caminho/clipe.mp4", "video": true, "inicio": 12.0,
      "dur": 6, "legenda": "Estande de robótica", "secao": "Tech Week"},
     ...
@@ -37,9 +40,9 @@ from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1920, 1080
 FPS = 30
-FOTO_SEGS = 3.2          # duração de cada foto
-XFADE_SEGS = 0.6         # crossfade entre fotos
-TITULO_SEGS = 4.0        # cartela de abertura
+FOTO_SEGS = 3.2          # duração padrão de cada foto (sem narração)
+XFADE_SEGS = 0.6         # crossfade entre cenas
+TITULO_SEGS = 4.0        # cartela de abertura (sem narração)
 DIVISOR_SEGS = 2.2       # cartela de divisão de seção
 ZOOM = 1.14              # zoom máx. do Ken Burns (1.0 = sem zoom)
 
@@ -66,7 +69,7 @@ CORES_SECAO = {  # cores em RGB (uso via PIL)
     "turismo": ((60, 140, 40), (255, 255, 255)),      # verde
     "cultura": ((200, 160, 40), (30, 30, 30)),        # âmbar, texto escuro
 }
-COR_PADRAO = ((90, 90, 90), (255, 255, 255))
+COR_PADRAO = ((20, 80, 200), (255, 255, 255))   # azul do canal, texto branco
 
 
 def cor_secao(nome):
@@ -151,6 +154,54 @@ def frames_video(caminho, inicio, dur):
     cap.release()
 
 
+def dur_cena(cena):
+    """Duração nominal da cena em segundos (corta clipes; estica fotos)."""
+    return float(cena.get("dur", FOTO_SEGS))
+
+
+def contar_frames_cena(cena):
+    """Quantos frames a cena renderizaria (lê o vídeo para contar, se for o caso)."""
+    if not cena.get("video"):
+        return int(dur_cena(cena) * FPS)
+    cap = cv2.VideoCapture(cena["arquivo"])
+    if not cap.isOpened():
+        raise ValueError(f"não consegui abrir {cena['arquivo']}")
+    fps_orig = cap.get(cv2.CAP_PROP_FPS) or 30
+    cap.set(cv2.CAP_PROP_POS_FRAMES, int(float(cena.get("inicio", 0)) * fps_orig))
+    n = 0
+    for _ in range(int(dur_cena(cena) * FPS)):
+        ok, _ = cap.read()
+        if not ok:
+            break
+        n += 1
+    cap.release()
+    return n
+
+
+def blocos(man):
+    """Timeline em blocos, na ordem de gravação.
+
+    Cartelas (abertura/divisória) quebram o crossfade: a cena seguinte entra
+    com fade a partir da cauda escurecida da cartela — sem 'pulo' de imagem.
+    """
+    cenas = man["cenas"]
+    lista = [{"tipo": "cartela", "segs": float(man.get("titulo_dur", TITULO_SEGS)),
+              "titulo": True, "subtitulo": man.get("subtitulo", "")}]
+    secao_atual = None
+    prev_cena = False
+    for idx, cena in enumerate(cenas):
+        secao = cena.get("secao", "")
+        if secao != secao_atual and idx > 0:
+            lista.append({"tipo": "cartela", "segs": DIVISOR_SEGS, "secao": secao})
+            prev_cena = False
+        if secao != secao_atual:
+            secao_atual = secao
+        n = contar_frames_cena(cena)
+        lista.append({"tipo": "cena", "cena": cena, "n": n, "blend": prev_cena and n > 0})
+        prev_cena = n > 0
+    return lista
+
+
 def faixa_legenda(frame, legenda, secao):
     """Sobrepõe faixa semi-transparente com a legenda no rodapé (PIL/UTF-8)."""
     if not legenda:
@@ -184,62 +235,69 @@ def main():
     with open(manifesto_path, encoding="utf-8") as fh:
         man = json.load(fh)
 
-    cenas = man["cenas"]
-    n_foto = int(FOTO_SEGS * FPS)
     n_xf = int(XFADE_SEGS * FPS)
-    total = (int(TITULO_SEGS * FPS)
-             + len(cenas) * (n_foto + n_xf)
-             + sum(int(DIVISOR_SEGS * FPS) for i in range(1, len(cenas))
-                   if cenas[i]["secao"] != cenas[i - 1]["secao"]))
+    total_aprox = sum(int(b["segs"] * FPS) if b["tipo"] == "cartela"
+                      else b["n"] + (n_xf if b["blend"] else 0)
+                      for b in blocos(man))
 
     writer = cv2.VideoWriter(saida, cv2.VideoWriter_fourcc(*"mp4v"), FPS, (W, H))
     if not writer.isOpened():
         raise RuntimeError("não foi possível abrir o VideoWriter")
 
     try:
-        gravar(writer, cartela(man["titulo"], man.get("subtitulo", ""),
-                               TITULO_SEGS, texto_barra="TechLocal"))
+        foto_idx = 0
+        escritos = 0
+        frames_anteriores = None   # cauda do bloco anterior (para crossfade)
+        for n_bloco, bloco in enumerate(blocos(man)):
+            if bloco["tipo"] == "cartela":
+                if bloco.get("titulo"):
+                    frames = list(cartela(man["titulo"], bloco.get("subtitulo", ""),
+                                          bloco["segs"], texto_barra="TechLocal"))
+                else:
+                    cor_barra, _ = cor_secao(bloco["secao"])
+                    frames = list(cartela(bloco["secao"], "", bloco["segs"],
+                                          cor_barra=cor_barra, texto_barra=bloco["secao"]))
+                gravar(writer, frames)
+                escritos += len(frames)
+                frames_anteriores = frames[-n_xf:] if frames else None
+                continue
 
-        secao_atual = None
-        frames_anteriores = None
-        for idx, cena in enumerate(cenas):
+            cena, n = bloco["cena"], bloco["n"]
+            if n == 0:
+                print(f"[{n_bloco}] SEM FRAMES: {cena['arquivo']}")
+                continue
             secao = cena.get("secao", "")
-            if secao != secao_atual and idx > 0:
-                cor_barra, _ = cor_secao(secao)
-                gravar(writer, cartela(secao, "", DIVISOR_SEGS,
-                                       cor_barra=cor_barra, texto_barra=secao))
-            if secao != secao_atual:
-                secao_atual = secao
-
             if cena.get("video"):
-                dur = float(cena.get("dur", FOTO_SEGS))
                 frames = [faixa_legenda(f, cena.get("legenda", ""), secao)
                           for f in frames_video(cena["arquivo"],
-                                                float(cena.get("inicio", 0)), dur)]
+                                                float(cena.get("inicio", 0)),
+                                                dur_cena(cena))][:n]
             else:
                 img = carregar_foto(cena["arquivo"])
                 frames = []
-                for i, f in enumerate(ken_burns(img, n_foto, zoom_in=(idx % 2 == 0))):
+                for i, f in enumerate(ken_burns(img, n, zoom_in=(foto_idx % 2 == 0))):
                     alfa = min(1.0, i / (0.4 * FPS))   # fade-in da legenda
                     com_faixa = faixa_legenda(f, cena.get("legenda", ""), secao)
                     frames.append(cv2.addWeighted(f, 1 - alfa, com_faixa, alfa, 0))
+                foto_idx += 1
 
-            if frames_anteriores is not None and frames:
-                ini = max(0, len(frames_anteriores) - n_xf)
-                for k in range(n_xf):
-                    if k >= len(frames):
-                        break
-                    a = (k + 1) / (n_xf + 1)
+            if bloco["blend"] and frames_anteriores:
+                m = min(n_xf, len(frames), len(frames_anteriores))
+                ini = len(frames_anteriores) - m
+                for k in range(m):
+                    a = (k + 1) / (m + 1)
                     blend = cv2.addWeighted(frames_anteriores[ini + k], 1 - a,
                                             frames[k], a, 0)
                     writer.write(blend)
+                    escritos += 1
             gravar(writer, frames)
-            frames_anteriores = frames
-            print(f"[{idx + 1}/{len(cenas)}] {cena['arquivo']}")
+            escritos += len(frames)
+            frames_anteriores = frames[-n_xf:] if frames else frames_anteriores
+            print(f"[{n_bloco}] {cena['arquivo']} ({n / FPS:.1f}s)")
     finally:
         writer.release()
 
-    print(f"OK -> {saida} (~{total // FPS}s a {FPS}fps)")
+    print(f"OK -> {saida} (~{escritos // FPS}s reais, ~{total_aprox // FPS}s previstos, {FPS}fps)")
 
 
 if __name__ == "__main__":

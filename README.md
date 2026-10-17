@@ -24,14 +24,33 @@
 
 - **montar_video_londres.py** — Montagem 1080p a partir de manifesto JSON
   - ✓ Testado em 16/10/2026: funciona (19 cenas, fotos + clipes + cartelas de seção)
+  - Timeline centralizada em `blocos()`: fotos aceitam `dur` variável (narração),
+    crossfade só entre cenas (cartelas quebram com fade pra preto — sem 'pulo')
   - ✗ Limitação: render lento (~3,5 min) e intermediário grande (MPEG-4 ~175 MB)
 
-### ✅ Vídeo entregue (16/10/2026)
+- **narrar_londres.py** — Narrações TTS (Piper, 100% local) a partir do manifesto
+  - ✓ Testado em 16/10/2026: voz feminina pt-BR natural (Faber); gera WAVs em
+    `narracao_wavs/` e injeta `narr_arquivo`, `dur` das fotos e `titulo_dur`
+  - ⚠️ edge-tts (Microsoft) falhou com 403 persistente — Piper é o caminho local
+
+- **gerar_audio_londres.py** — Faixa de áudio: narração + som original dos clipes
+  - ✓ Testado em 16/10/2026: reproduz `blocos()` e posiciona cada narração no
+    início do bloco da cena; áudio original dos clipes entra a -12 dB (0.25)
+
+### ✅ Vídeo entregue (16-17/10/2026)
 - **video_londres_final.mp4** — "London Tech Week 2026 + Turismo + Cultura"
-  - 91s, 1920x1080 @ 30fps, H.264 + trilha ambiente (pad sintetizado via ffmpeg)
-  - Manifesto: `manifesto_londres.json` (19 cenas: 5 clipes, 14 fotos, 3 seções)
-  - Pipeline: render (OpenCV) → mux áudio (ffmpeg) → re-encode H.264
-  - Arquivos grandes ficam fora do git (70 MB finais + ~350 MB de intermediários)
+  - ~113s, 1920x1080 @ 30fps, H.264 + **narração vlog feminina pt-BR** (20 falas
+    espontâneas, com humor e emoção) + áudio original dos clipes a -12 dB
+    + **música de fundo** ("Wholesome", Kevin MacLeod, CC-BY) a -20 dB com fades
+  - **Fluxo integrado, sem capítulos**: a experiência real mistura tecnologia,
+    cultura e turismo — divisórias de seção foram removidas e a história segue
+    a cronologia da viagem (chegada → cidade → feira → momentos inesquecíveis)
+  - Manifesto: `manifesto_londres.json` (19 cenas + narrações; sem "secao")
+  - Pipeline: narrar (Piper) → render (OpenCV) → áudio (`gerar_audio_londres.py`)
+    → mux + re-encode H.264 (ffmpeg)
+  - Verificação: voz presente em todas as cenas narradas, timeline do áudio bate
+    frame a frame com o vídeo; transições pós-divisória sem 'pulo'
+  - Arquivos grandes ficam fora do git (75 MB finais + ~450 MB de intermediários)
 
 ### ✅ Repositório GitHub
 - https://github.com/MMMejias39/techculttur
@@ -129,5 +148,5 @@ Use este repositório como **pipeline de montagem rápida** (vídeos estruturado
 ---
 
 **Criado em:** 15 de outubro de 2026  
-**Última atualização:** 16 de outubro de 2026 (vídeo London Tech Week entregue)  
-**Próxima ação:** Revisar vídeo final e commitar arquivos novos
+**Última atualização:** 16 de outubro de 2026 (vídeo com narração TTS e transições corrigidas)  
+**Próxima ação:** Revisar narração/voz no vídeo final e commitar novos scripts

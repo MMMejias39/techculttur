@@ -1,0 +1,15 @@
+# artefatos de mídia e produção
+*.mp4
+*.wav
+*.mp3
+*.ogg
+amostras_audio/
+narracao_wavs/
+vozes_piper/
+amostras_voz/
+
+# ambientes virtuais e caches
+venv-tts/
+__pycache__/
+*.pyc
+.pytest_cache/
