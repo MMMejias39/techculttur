@@ -2,106 +2,301 @@
   "titulo": "LONDON TECH WEEK 2026",
   "subtitulo": "Tecnologia, turismo e cultura com o TechLocal",
   "falas_titulo": [
-    {"voz": "marcelo", "texto": "Londres, junho de 2026."},
-    {"voz": "bernardo", "texto": "A gente veio pra London Tech Week... mas Londres resolveu roubar a cena."}
+    {
+      "voz": "marcelo",
+      "texto": "Londres... junho de 2026!"
+    },
+    {
+      "voz": "bernardo",
+      "texto": "A gente veio pra London Tech Week... mas Londres resolveu roubar a cena!"
+    }
   ],
   "musica": "musica_fundo.mp3",
   "cenas": [
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260607154658_0051_D.JPG", "legenda": "Tower Bridge e o rio Tâmisa",
-     "falas": [
-       {"voz": "marcelo", "texto": "Olha essa ponte, Bernardo."},
-       {"voz": "bernardo", "texto": "A gente parou no meio do caminho só pra ficar olhando, né."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260607154701_0052_D.JPG", "legenda": "Chegada em Londres — Tower Bridge",
-     "falas": [
-       {"voz": "bernardo", "texto": "Cara de quem não dormiu no voo."},
-       {"voz": "marcelo", "texto": "Zero arrependimento, though."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/videos/DJI_20260607155139_0055_D.MP4", "video": true, "inicio": 11, "dur": 5, "legenda": "Fotografando a Tower Bridge",
-     "falas": [
-       {"voz": "marcelo", "texto": "Já saí filmando tudo."},
-       {"voz": "bernardo", "texto": "De novo? Sério?"}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260607155310_0056_D.JPG", "legenda": "Com o time na Tower Bridge",
-     "falas": [
-       {"voz": "bernardo", "texto": "O time completo. Momento 'somos os cara'."},
-       {"voz": "marcelo", "texto": "Registrado pra posteridade."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/videos/DJI_20260607154725_0054_D.MP4", "video": true, "inicio": 22, "dur": 5, "legenda": "Rolê com o time na beira do Tâmisa",
-     "falas": [
-       {"voz": "marcelo", "texto": "Rolê com o time na beira do Tâmisa."},
-       {"voz": "bernardo", "texto": "Parando a cada metro."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260608085422_0065_D.JPG", "legenda": "City of London — a caminho do evento",
-     "falas": [
-       {"voz": "bernardo", "texto": "No dia seguinte, atravessando a City a pé."},
-       {"voz": "marcelo", "texto": "Londres não se vê de dentro de metrô."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260608085626_0067_D.JPG", "legenda": "Arquitetura do centro histórico",
-     "falas": [
-       {"voz": "marcelo", "texto": "Cada esquina uma aula de história."},
-       {"voz": "bernardo", "texto": "E a feira nem tinha começado!"}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260607175125_0058_D.JPG", "legenda": "Igreja londrina ao entardecer",
-     "falas": [
-       {"voz": "bernardo", "texto": "Ao entardecer até as igrejas parecem cenário de filme."},
-       {"voz": "marcelo", "texto": "Cenário de filme é pouco."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260608103314_0069_D.JPG", "legenda": "London Tech Week — Deep Tech Stage",
-     "falas": [
-       {"voz": "marcelo", "texto": "E aí, finalmente: London Tech Week."},
-       {"voz": "bernardo", "texto": "Deep Tech Stage lotada no primeiro dia."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/videos/DJI_20260608121439_0101_D.MP4", "video": true, "inicio": 14, "dur": 6, "legenda": "Simulador McLaren no estande Deloitte",
-     "falas": [
-       {"voz": "bernardo", "texto": "Simulador da McLaren no estande da Deloitte."},
-       {"voz": "marcelo", "texto": "Spoiler: eu dirigi mal. Muito mal."},
-       {"voz": "bernardo", "texto": "Mas feliz."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260608121307_0098_D.JPG", "legenda": "Estande de robótica na feira",
-     "falas": [
-       {"voz": "marcelo", "texto": "Robôs por todos os lados."},
-       {"voz": "bernardo", "texto": "Você fingindo que entende. Ninguém acreditou."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260608121311_0099_D.JPG", "legenda": "Networking no estande",
-     "falas": [
-       {"voz": "bernardo", "texto": "Networking rolando solto."},
-       {"voz": "marcelo", "texto": "Dá pra conhecer o mundo inteiro num corredor desses."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260608135237_0105_D.JPG", "legenda": "London Tech Week 2026",
-     "falas": [
-       {"voz": "marcelo", "texto": "O coração da tech europeia batendo forte."},
-       {"voz": "bernardo", "texto": "E a gente no meio dele."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260608135250_0110_D.JPG", "legenda": "Registrando o momento",
-     "falas": [
-       {"voz": "bernardo", "texto": "Registrando cada segundo."},
-       {"voz": "marcelo", "texto": "Memória boa é memória compartilhada."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260608135338_0116_D.JPG", "legenda": "Encontros na feira",
-     "falas": [
-       {"voz": "marcelo", "texto": "Encontros que valem mais que palestra."},
-       {"voz": "bernardo", "texto": "Gente do mundo inteiro trocando ideia."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/videos/DJI_20260610094459_0124_D.MP4", "video": true, "inicio": 10, "dur": 6, "legenda": "Painel: astronauta na Deep Tech Stage",
-     "falas": [
-       {"voz": "bernardo", "texto": "Aí teve esse painel: um astronauta de verdade."},
-       {"voz": "marcelo", "texto": "Contando como é ir pro espaço. Eu quase chorei."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260610094553_0125_D.JPG", "legenda": "Painel Deep Tech Stage",
-     "falas": [
-       {"voz": "marcelo", "texto": "Preparing for Space."},
-       {"voz": "bernardo", "texto": "Olha sua carinha já imaginando a próxima viagem."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/videos/DJI_20260610094821_0128_D.MP4", "video": true, "inicio": 13, "dur": 6, "legenda": "Plateia acompanhando o painel",
-     "falas": [
-       {"voz": "marcelo", "texto": "A plateia inteira hipnotizada."},
-       {"voz": "bernardo", "texto": "Inclusive a gente."}
-     ]},
-    {"arquivo": "/home/mejias/Imagens/Londres/DJI_20260610094602_0127_D.JPG", "legenda": "Preparing for Space — The Making of an Astronaut",
-     "falas": [
-       {"voz": "bernardo", "texto": "Tecnologia, cultura e turismo numa semana só."},
-       {"voz": "marcelo", "texto": "Londres, a gente se vê em breve."}
-     ]}
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260607154658_0051_D.JPG",
+      "legenda": "Tower Bridge e o rio Tâmisa",
+      "falas": [
+        {
+          "voz": "marcelo",
+          "texto": "Olha essa ponte, Bernardo!"
+        },
+        {
+          "voz": "bernardo",
+          "texto": "A gente parou no meio do caminho só pra ficar olhando, né?"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260607154701_0052_D.JPG",
+      "legenda": "Chegada em Londres — Tower Bridge",
+      "falas": [
+        {
+          "voz": "bernardo",
+          "texto": "Cara de quem não dormiu no voo..."
+        },
+        {
+          "voz": "marcelo",
+          "texto": "Zero arrependimento, though!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/videos/DJI_20260607155139_0055_D.MP4",
+      "video": true,
+      "inicio": 11,
+      "dur": 5,
+      "legenda": "Fotografando a Tower Bridge",
+      "falas": [
+        {
+          "voz": "marcelo",
+          "texto": "Já saí filmando tudo, ó!"
+        },
+        {
+          "voz": "bernardo",
+          "texto": "De novo? Sério?"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260607155310_0056_D.JPG",
+      "legenda": "Com o time na Tower Bridge",
+      "falas": [
+        {
+          "voz": "bernardo",
+          "texto": "O time completo! Momento \"somos os cara\"!"
+        },
+        {
+          "voz": "marcelo",
+          "texto": "Registrado pra posteridade!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/videos/DJI_20260607154725_0054_D.MP4",
+      "video": true,
+      "inicio": 22,
+      "dur": 5,
+      "legenda": "Rolê com o time na beira do Tâmisa",
+      "falas": [
+        {
+          "voz": "marcelo",
+          "texto": "Rolê com o time na beira do Tâmisa!"
+        },
+        {
+          "voz": "bernardo",
+          "texto": "Parando a cada metro, claro!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260608085422_0065_D.JPG",
+      "legenda": "City of London — a caminho do evento",
+      "falas": [
+        {
+          "voz": "bernardo",
+          "texto": "Dia seguinte: atravessando a City a pé!"
+        },
+        {
+          "voz": "marcelo",
+          "texto": "Londres não se vê de dentro de metrô!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260608085626_0067_D.JPG",
+      "legenda": "Arquitetura do centro histórico",
+      "falas": [
+        {
+          "voz": "marcelo",
+          "texto": "Cada esquina é uma aula de história!"
+        },
+        {
+          "voz": "bernardo",
+          "texto": "E a feira nem tinha começado!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260607175125_0058_D.JPG",
+      "legenda": "Igreja londrina ao entardecer",
+      "falas": [
+        {
+          "voz": "bernardo",
+          "texto": "Ao entardecer, até as igrejas parecem cenário de filme..."
+        },
+        {
+          "voz": "marcelo",
+          "texto": "Cenário de filme é pouco!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260608103314_0069_D.JPG",
+      "legenda": "London Tech Week — Deep Tech Stage",
+      "falas": [
+        {
+          "voz": "marcelo",
+          "texto": "E aí... finalmente: London Tech Week!"
+        },
+        {
+          "voz": "bernardo",
+          "texto": "Deep Tech Stage lotada no primeiro dia!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/videos/DJI_20260608121439_0101_D.MP4",
+      "video": true,
+      "inicio": 14,
+      "dur": 6,
+      "legenda": "Simulador McLaren no estande Deloitte",
+      "falas": [
+        {
+          "voz": "bernardo",
+          "texto": "Simulador da McLaren, no estande da Deloitte!"
+        },
+        {
+          "voz": "marcelo",
+          "texto": "Spoiler: eu dirigi mal. Muito mal!"
+        },
+        {
+          "voz": "bernardo",
+          "texto": "Mas feliz!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260608121307_0098_D.JPG",
+      "legenda": "Estande de robótica na feira",
+      "falas": [
+        {
+          "voz": "marcelo",
+          "texto": "Robôs por todos os lados!"
+        },
+        {
+          "voz": "bernardo",
+          "texto": "Você fingindo que entende... ninguém acreditou, cara!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260608121311_0099_D.JPG",
+      "legenda": "Networking no estande",
+      "falas": [
+        {
+          "voz": "bernardo",
+          "texto": "Networking rolando solto!"
+        },
+        {
+          "voz": "marcelo",
+          "texto": "Dá pra conhecer o mundo inteiro num corredor desses!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260608135237_0105_D.JPG",
+      "legenda": "London Tech Week 2026",
+      "falas": [
+        {
+          "voz": "marcelo",
+          "texto": "O coração da tech europeia batendo forte!"
+        },
+        {
+          "voz": "bernardo",
+          "texto": "E a gente no meio dele!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260608135250_0110_D.JPG",
+      "legenda": "Registrando o momento",
+      "falas": [
+        {
+          "voz": "bernardo",
+          "texto": "Registrando cada segundo!"
+        },
+        {
+          "voz": "marcelo",
+          "texto": "Memória boa é memória compartilhada!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260608135338_0116_D.JPG",
+      "legenda": "Encontros na feira",
+      "falas": [
+        {
+          "voz": "marcelo",
+          "texto": "Encontros que valem mais que palestra!"
+        },
+        {
+          "voz": "bernardo",
+          "texto": "Gente do mundo inteiro trocando ideia!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/videos/DJI_20260610094459_0124_D.MP4",
+      "video": true,
+      "inicio": 10,
+      "dur": 6,
+      "legenda": "Painel: astronauta na Deep Tech Stage",
+      "falas": [
+        {
+          "voz": "bernardo",
+          "texto": "Aí teve esse painel... um astronauta de verdade!"
+        },
+        {
+          "voz": "marcelo",
+          "texto": "Contando como é ir pro espaço! Eu quase chorei!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260610094553_0125_D.JPG",
+      "legenda": "Painel Deep Tech Stage",
+      "falas": [
+        {
+          "voz": "marcelo",
+          "texto": "Preparing for Space!"
+        },
+        {
+          "voz": "bernardo",
+          "texto": "Olha sua carinha já imaginando a próxima viagem..."
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/videos/DJI_20260610094821_0128_D.MP4",
+      "video": true,
+      "inicio": 13,
+      "dur": 6,
+      "legenda": "Plateia acompanhando o painel",
+      "falas": [
+        {
+          "voz": "marcelo",
+          "texto": "A plateia inteira hipnotizada!"
+        },
+        {
+          "voz": "bernardo",
+          "texto": "Inclusive a gente!"
+        }
+      ]
+    },
+    {
+      "arquivo": "/home/mejias/Imagens/Londres/DJI_20260610094602_0127_D.JPG",
+      "legenda": "Preparing for Space — The Making of an Astronaut",
+      "falas": [
+        {
+          "voz": "bernardo",
+          "texto": "Tecnologia, cultura e turismo... numa semana só!"
+        },
+        {
+          "voz": "marcelo",
+          "texto": "Londres... a gente se vê em breve!"
+        }
+      ]
+    }
   ]
 }

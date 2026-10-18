@@ -25,6 +25,17 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
+# torchaudio 2.11 routeia load() para o torchcodec, cuja wheel exige libnvrtc.so.13
+# (CUDA) mesmo em CPU — sem GPU, usamos soundfile para carregar o speaker_wav.
+import torch
+import torchaudio
+
+def _load_com_soundfile(path, *args, **kwargs):
+    dados, sr = sf.read(str(path), dtype="float32", always_2d=True)
+    return torch.from_numpy(dados.T), sr
+
+torchaudio.load = _load_com_soundfile
+
 from montar_video_londres import FPS, FOTO_SEGS, TITULO_SEGS, contar_frames_cena
 
 VOZES = {
